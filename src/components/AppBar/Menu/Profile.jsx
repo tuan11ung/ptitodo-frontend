@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box } from '@mui/material'
-import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Divider from '@mui/material/Divider'
@@ -34,7 +33,7 @@ function Profile() {
           aria-expanded={open ? 'true' : undefined}
         >
           <Avatar
-            sx={{ width: 32, height: 32 }}
+            sx={{ width: 34, height: 34 }}
             src='https://yt3.ggpht.com/yti/ANjgQV8VnKoPIgSssCBNX0ZVJCjtxosld3ereCDaK8SaKvk=s88-c-k-c0x00ffffff-no-rj'
           />
         </IconButton>

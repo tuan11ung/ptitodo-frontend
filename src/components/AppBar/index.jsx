@@ -7,13 +7,16 @@ import Typography from '@mui/material/Typography'
 import Workspaces from './Menu/Workspaces'
 import Recent from './Menu/Recent'
 import Starred from './Menu/Starred'
+import InputAdornment from '@mui/material/InputAdornment'
 import Templates from './Menu/Template'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Badge from '@mui/material/Badge'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import Tooltip from '@mui/material/Tooltip'
+import AddIcon from '@mui/icons-material/Add'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import SearchIcon from '@mui/icons-material/Search'
 import Profile from './Menu/Profile'
 
 function AppBar() {
@@ -42,14 +45,33 @@ function AppBar() {
           <Recent />
           <Starred />
           <Templates />
-          <Button variant="outlined">Create</Button>
+          <Button variant="outlined" startIcon={<AddIcon/>}>Create</Button>
         </Box>
 
       </Box>
 
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <ModeSelect/>
-        <TextField id="outlined-search" label="Search" type="search" size="small" sx={{ minWidth: '120px' }} />
+        <TextField
+          id="outlined-search"
+          label="Search"
+          type="search"
+          size="small"
+          InputProps={{
+            startAdornment:
+              <InputAdornment position="start"
+                sx={{
+                  '& .MuiSvgIcon-root': {
+                    color: 'primary.main'
+                  }
+                }}>
+                <SearchIcon/>
+              </InputAdornment>
+          }}
+          sx={{
+            minWidth: '120px'
+          }}
+        />
         <Tooltip title="Notifications">
           <Badge color="secondary" variant="dot" sx={{ cursor: 'pointer' }}>
             <NotificationsNoneIcon sx={{ color: 'primary.main' }}/>

@@ -1,4 +1,3 @@
-import { Height } from '@mui/icons-material'
 import { cyan, orange, deepOrange, teal } from '@mui/material/colors'
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 
