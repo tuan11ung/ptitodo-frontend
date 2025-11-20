@@ -1,4 +1,3 @@
-import { cyan, orange, deepOrange, teal } from '@mui/material/colors'
 import { experimental_extendTheme as extendTheme } from '@mui/material/styles'
 
 // Create a theme instance.
@@ -10,14 +9,10 @@ const theme = extendTheme({
   colorSchemes: {
     light: {
       palette: {
-        primary: teal,
-        secondary: deepOrange
       }
     },
     dark: {
       palette: {
-        primary: cyan,
-        secondary: orange
       }
     }
   },
@@ -26,15 +21,15 @@ const theme = extendTheme({
       styleOverrides: {
         body: {
           '*::-webkit-scrollbar': {
-            width: '8px',
-            height: '8px'
+            width: '5px',
+            height: '5px'
           },
           '*::-webkit-scrollbar-thumb': {
-            backgroundColor: '#bcd3c7',
+            backgroundColor: '#dcdde1',
             borderRadius: '8px'
           },
           '*::-webkit-scrollbar-thumb:hover': {
-            backgroundColor: '#9dafa6ff'
+            backgroundColor: 'white'
           }
         }
       }
@@ -42,36 +37,32 @@ const theme = extendTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none'
+          textTransform: 'none',
+          borderWidth: '1px',
+          '&:hover': {
+            borderWidth: '2px'
+          }
         }
       }
     },
     MuiInputLabel: {
       styleOverrides: {
-        root: ({ theme }) => ({
-          color: theme.palette.primary.main,
-          fontSize: '0.875rem'
-        })
+        root: { fontSize: '0.875rem' }
       }
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: ({ theme }) => {
-          return {
-            color: theme.palette.primary.main,
-            fontSize: '0.875rem',
-            '.MuiOutlinedInput-notchedOutline': {
-              borderColor: theme.palette.primary.light
-            },
-            '&:hover': {
-              '.MuiOutlinedInput-notchedOutline': {
-                borderColor: theme.palette.primary.main
-              }
-            },
-            //Khi focus khong bi boi dam
-            '& fieldset': {
-              borderWidth: '1px !important'
-            }
+        root: {
+          fontSize: '0.875rem',
+          //Khi focus khong bi boi dam
+          '& fieldset': {
+            borderWidth: '1px !important'
+          },
+          '&:hover fieldset': {
+            borderWidth: '2px !important'
+          },
+          '&.Mui-focused fieldset': {
+            borderWidth: '2px !important'
           }
         }
       }

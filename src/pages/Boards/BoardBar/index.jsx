@@ -12,31 +12,35 @@ import Button from '@mui/material/Button'
 import { Box, Tooltip } from '@mui/material'
 
 const MENU_STYLES = {
-  color: 'primary.main',
-  bgcolor: 'white',
+  color: 'white',
+  bgcolor: 'transparent',
   border: 'none',
   paddingX: '5px',
   borderRadius: '5px',
   '& .MuiSvgIcon-root': {
-    color: 'primary.main'
+    color: 'white'
   },
   '&:hover': {
-    bgcolor: 'primary.50'
+    bgcolor: 'primary.50',
+    color: 'white'
+  },
+  '&:hover .MuiSvgIcon-root': {
+    bgcolor: 'primary.50',
+    color: 'white'
   }
 }
 
 function BoardBar() {
   return (
     <Box px={2} sx={{
-      // backgroundColor: 'primary.dark',
+      bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#3498db'),
       width: '100%',
       height: (theme) => theme.trelloCustom.boardBarHeight,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
       gap: 2,
-      overflowX: 'auto',
-      borderTop: '1px solid #00bfa5'
+      overflowX: 'auto'
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Chip
@@ -71,14 +75,28 @@ function BoardBar() {
         />
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Button variant="outlined" startIcon={<PersonAddIcon/>}>Invite</Button>
+        <Button
+          variant="outlined"
+          sx={{
+            color: 'white',
+            borderColor: 'white',
+            '&:hover': {
+              borderColor: 'white'
+            }
+          }}
+          startIcon={<PersonAddIcon/>}>Invite</Button>
         <AvatarGroup
           max={7}
           sx={{
-            '&. MuiAvatar-root': {
+            gap: '10px',
+            '& .MuiAvatar-root': {
               width: 34,
               height: 34,
-              fontSize: 16
+              fontSize: 16,
+              border: 'none',
+              color: 'white',
+              cursor: 'pointer',
+              '&:first-of-type': { bgcolor: '#a4b0be' }
             }
           }}>
           <Tooltip title='Tuan11ung'>

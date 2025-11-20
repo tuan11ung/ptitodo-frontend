@@ -1,8 +1,9 @@
 import React from 'react'
-import { Box, SvgIcon } from '@mui/material'
+import { useState } from 'react'
+import { Box } from '@mui/material'
 import ModeSelect from '../../components/ModeSelect'
 import AppsIcon from '@mui/icons-material/Apps'
-import { ReactComponent as ptitLogo } from '~/assets/PTIT.svg'
+// import { ReactComponent as ptitLogo } from '~/assets/PTIT.svg'
 import Typography from '@mui/material/Typography'
 import Workspaces from './Menu/Workspaces'
 import Recent from './Menu/Recent'
@@ -14,12 +15,15 @@ import TextField from '@mui/material/TextField'
 import Badge from '@mui/material/Badge'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import Tooltip from '@mui/material/Tooltip'
-import AddIcon from '@mui/icons-material/Add'
+import AddBoxIcon from '@mui/icons-material/AddBox'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import SearchIcon from '@mui/icons-material/Search'
 import Profile from './Menu/Profile'
+import CloseIcon from '@mui/icons-material/Close'
 
 function AppBar() {
+  const [searchValue, setSearchValue] = useState('')
+
   return (
     <Box px={2} sx={{
       width: '100%',
@@ -28,14 +32,26 @@ function AppBar() {
       alignItems: 'center',
       justifyContent: 'space-between',
       gap: 2,
-      overflowX: 'auto'
+      overflowX: 'auto',
+      bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2c3e50' : '#0984e3')
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <AppsIcon sx={{ color: 'primary.main' }}/>
+        <AppsIcon sx={{ color: 'white' }}/>
         {/* <img src={ptitLogo} style={{ width: '24px', height: '24px' }}/> */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          <SvgIcon component={ptitLogo} sx={{ width: '40px', height: '40px' }} inheritViewBox />
-          <Typography variant="span" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'primary.main' }}>
+          {/* <SvgIcon component={ptitLogo} sx={{ width: '40px', height: '40px' }} inheritViewBox /> */}
+          <Box
+            component="img"
+            src="https://ptit.edu.vn/wp-content/uploads/2023/06/logo-footer-svg.svg"
+            alt="PTIT Logo"
+            sx={{
+              height: 32, // Điều chỉnh kích thước theo nhu cầu
+              width: 32,
+              objectFit: 'cover', // 'cover', 'contain', 'fill'
+              objectPosition: 'left' // Vị trí crop
+            }}
+          />
+          <Typography variant="span" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white' }}>
             PTITodo
           </Typography>
         </Box>
@@ -45,7 +61,7 @@ function AppBar() {
           <Recent />
           <Starred />
           <Templates />
-          <Button variant="outlined" startIcon={<AddIcon/>}>Create</Button>
+          <Button sx={{ color: 'white' }} startIcon={<AddBoxIcon/>}>Create</Button>
         </Box>
 
       </Box>
@@ -55,32 +71,51 @@ function AppBar() {
         <TextField
           id="outlined-search"
           label="Search"
-          type="search"
+          type="text"
           size="small"
+          onChange={(e) => setSearchValue(e.target.value)}
+          value={searchValue}
           InputProps={{
-            startAdornment:
+            startAdornment: (
               <InputAdornment position="start"
                 sx={{
                   '& .MuiSvgIcon-root': {
-                    color: 'primary.main'
+                    color: 'white'
                   }
                 }}>
                 <SearchIcon/>
               </InputAdornment>
+            ),
+            endAdornment: (
+              <CloseIcon
+                fontSize='small'
+                sx={{ color: searchValue ? 'white' : 'transparent', cursor: 'pointer' }}
+                onClick={() => setSearchValue('')}
+              />
+            )
           }}
           sx={{
-            minWidth: '120px'
+            minWidth: '120px',
+            maxWidth: '170px',
+            '& label': { color: 'white' },
+            '& input': { color: 'white' },
+            '& label.Mui-focused': { color: 'white' },
+            '& .MuiOutlinedInput-root': {
+              '& fieldset': { borderColor: 'white' },
+              '&:hover fieldset': { borderColor: 'white' },
+              '&.Mui-focused fieldset': { borderColor: 'white' }
+            }
           }}
         />
         <Tooltip title="Notifications">
-          <Badge color="secondary" variant="dot" sx={{ cursor: 'pointer' }}>
-            <NotificationsNoneIcon sx={{ color: 'primary.main' }}/>
+          <Badge color="error" variant="dot" sx={{ cursor: 'pointer' }}>
+            <NotificationsNoneIcon sx={{ color: 'white' }}/>
           </Badge>
         </Tooltip>
-        <Tooltip title="Help" sx={{ cursor: 'pointer', color: 'primary.main' }}>
+        <Tooltip title="Help" sx={{ cursor: 'pointer', color: 'white' }}>
           <HelpOutlineIcon/>
         </Tooltip>
-        <Tooltip title="Account settings" sx={{ cursor: 'pointer', color: 'primary.main' }}>
+        <Tooltip title="Account settings" sx={{ cursor: 'pointer', color: 'white' }}>
           <Profile />
         </Tooltip>
       </Box>
