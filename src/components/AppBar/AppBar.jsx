@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { Box } from '@mui/material'
-import ModeSelect from '../../components/ModeSelect'
+import ModeSelect from '../ModeSelect/ModeSelect'
 import AppsIcon from '@mui/icons-material/Apps'
 // import { ReactComponent as ptitLogo } from '~/assets/PTIT.svg'
 import Typography from '@mui/material/Typography'

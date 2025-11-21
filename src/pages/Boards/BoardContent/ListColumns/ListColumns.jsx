@@ -1,6 +1,8 @@
 import React from 'react'
 import { Box } from '@mui/material'
 import Column from './Column/Column'
+import Button from '@mui/material/Button'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 function ListColumns() {
   return (
@@ -14,6 +16,22 @@ function ListColumns() {
       '&::-webkit-scrollbar-track': { m: 2 }
     }}>
       <Column/>
+      <Box sx={{
+        minWidth: '200px',
+        maxWidth: '200px',
+        mx: 2,
+        borderRadius: '6px',
+        height: 'fit-content',
+        bgcolor: '#ffffff3d'
+      }}>
+        <Button sx={{
+          color: 'white',
+          width: '100%',
+          justifyContent: 'flex-start',
+          pl: 2.5,
+          py: 1
+        }} startIcon={<AddCircleIcon/>}>Add new column</Button>
+      </Box>
     </Box>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import Card from '@mui/material/Card'
+import Card from './Card/Card'
 import { Box } from '@mui/material'
 
 function ListCards() {
