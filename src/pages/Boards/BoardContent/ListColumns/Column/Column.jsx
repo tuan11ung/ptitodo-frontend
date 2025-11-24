@@ -16,8 +16,9 @@ import AddCardIcon from '@mui/icons-material/AddCard'
 import Button from '@mui/material/Button'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ListCards from './ListCards/ListCards'
+import { mapOrder } from '~/utils/sorts'
 
-function Column() {
+function Column({ column }) {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -26,6 +27,9 @@ function Column() {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
+
   return (
     <Box sx={{
       minWidth: '300px',
@@ -36,20 +40,22 @@ function Column() {
       height: 'fit-content',
       maxHeight: (theme) => `calc(${theme.trelloCustom.boardContentHeight} - ${theme.spacing(5)})`
     }}>
+
       {/* BOX COLUMN HEADER */}
       <Box sx={{
         height: (theme) => theme.trelloCustom.columnHeaderHeight,
         p: 2,
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        cursor: 'pointer'
       }}>
         <Typography variant='h6' sx={{
           fontSize: '1rem',
           fontWeight: 'bold',
           cursor: 'pointer'
         }}>
-          Column Title
+          {column?.title}
         </Typography>
         <Box>
           <Tooltip title='More Options'>
@@ -113,8 +119,10 @@ function Column() {
           </Menu>
         </Box>
       </Box>
+
       {/* LIST CARDS */}
-      <ListCards/>
+      <ListCards cards={orderedCards}/>
+
       {/* BOX COLUMN FOOTER */}
       <Box sx={{
         height: (theme) => theme.trelloCustom.columnFooterHeight,

@@ -4,7 +4,7 @@ import Column from './Column/Column'
 import Button from '@mui/material/Button'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 
-function ListColumns() {
+function ListColumns({ columns }) {
   return (
     <Box sx={{
       overflowX: 'auto',
@@ -15,7 +15,11 @@ function ListColumns() {
       height: '100%',
       '&::-webkit-scrollbar-track': { m: 2 }
     }}>
-      <Column/>
+      {columns?.map((column) => {
+        return <Column key={column._id} column={column}/>
+      })}
+
+      {/* BOX ADD NEW COLUMN */}
       <Box sx={{
         minWidth: '200px',
         maxWidth: '200px',
