@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { Box } from '@mui/material'
-import ModeSelect from '../../components/ModeSelect'
+import ModeSelect from '../ModeSelect/ModeSelect'
 import AppsIcon from '@mui/icons-material/Apps'
 // import { ReactComponent as ptitLogo } from '~/assets/PTIT.svg'
 import Typography from '@mui/material/Typography'
@@ -33,7 +33,8 @@ function AppBar() {
       justifyContent: 'space-between',
       gap: 2,
       overflowX: 'auto',
-      bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2c3e50' : '#0984e3')
+      bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#2c3e50' : '#0984e3'),
+      '&::-webkit-scrollbar-track': { m: 1 }
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <AppsIcon sx={{ color: 'white' }}/>

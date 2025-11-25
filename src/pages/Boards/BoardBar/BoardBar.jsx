@@ -10,6 +10,7 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import Button from '@mui/material/Button'
 import { Box, Tooltip } from '@mui/material'
+import { capitalizeFirstLetter } from '~/utils/formatters'
 
 const MENU_STYLES = {
   color: 'white',
@@ -30,7 +31,7 @@ const MENU_STYLES = {
   }
 }
 
-function BoardBar() {
+function BoardBar({ board }) {
   return (
     <Box px={2} sx={{
       bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495e' : '#3498db'),
@@ -40,19 +41,20 @@ function BoardBar() {
       alignItems: 'center',
       justifyContent: 'space-between',
       gap: 2,
-      overflowX: 'auto'
+      overflowX: 'auto',
+      '&::-webkit-scrollbar-track': { m: 1 }
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Chip
           sx={MENU_STYLES}
           icon={<DashboardIcon />}
-          label="Tuan11ung Board"
+          label={board?.title}
           clickable
         />
         <Chip
           sx={MENU_STYLES}
           icon={<VpnLockIcon />}
-          label="Public/Private Workspaces"
+          label={capitalizeFirstLetter(board?.type)}
           clickable
         />
         <Chip
