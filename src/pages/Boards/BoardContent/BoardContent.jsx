@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Box } from '@mui/material'
 import ListColumns from './ListColumns/ListColumns'
 import { mapOrder } from '~/utils/sorts'
-import { 
+import {
   DndContext,
   // PointerSensor,
   MouseSensor,
