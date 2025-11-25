@@ -22,7 +22,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 function Column({ column }) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
   })
@@ -31,7 +31,8 @@ function Column({ column }) {
     // touchAction: 'none', // danh cho sensor default dang PointerSensor
     transform: CSS.Translate.toString(transform),
     transition,
-    height: '100%'
+    height: '100%', // fix loi keo flickering
+    opacity: isDragging ? 0.5 : undefined
   }
 
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -46,9 +47,9 @@ function Column({ column }) {
   const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
 
   return (
-    <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes} {...listeners}>
+    <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>
       <Box
-        // ref={setNodeRef} style={dndKitColumnStyles} {...attributes} {...listeners}
+        {...listeners}
         sx={{
           minWidth: '300px',
           maxWidth: '300px',

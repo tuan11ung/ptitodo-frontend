@@ -13,15 +13,16 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 function Card({ card }) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: card._id,
     data: { ...card }
   })
 
-  const dndKitColumnStyles = {
+  const dndKitCardStyles = {
     // touchAction: 'none', // danh cho sensor default dang PointerSensor
     transform: CSS.Translate.toString(transform),
-    transition
+    transition,
+    opacity: isDragging ? 0.5 : undefined
   }
 
   const shouldShowCardActions = () => {
@@ -30,7 +31,7 @@ function Card({ card }) {
 
   return (
     <MuiCard
-      ref={setNodeRef} style={dndKitColumnStyles} {...attributes} {...listeners}
+      ref={setNodeRef} style={dndKitCardStyles} {...attributes} {...listeners}
       sx={{
         cursor: 'pointer',
         boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
