@@ -7,6 +7,10 @@ import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortabl
 
 function ListColumns({ columns }) {
   return (
+    /**
+     * SortableContext yeu cau items la 1 mang dang ['id-1', 'id-2'] not [{id: 'id-1'}, {id: 'id-2'}] 
+     * Neu khong dung se khong co animation
+     */
     <SortableContext items={columns?.map(c => c._id)} strategy={horizontalListSortingStrategy}>
       <Box sx={{
         overflowX: 'auto',
