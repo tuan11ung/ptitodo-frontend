@@ -4,8 +4,8 @@ import { Container } from '@mui/material'
 import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
-import { useParams } from 'react-router-dom'
-import { mockData } from '~/apis/mock-data'
+// import { useParams } from 'react-router-dom'
+// import { mockData } from '~/apis/mock-data'
 import { fetchBoardDetailsAPI } from '~/apis'
 
 function Board() {
@@ -28,7 +28,7 @@ function Board() {
     // }
 
     // fetchBoard()
-    const boardId = '6929d652d7079d70a0796fd7'
+    const boardId = '692b2128f9a85561876254c6'
 
     fetchBoardDetailsAPI(boardId).then((board) => {
       setBoard(board)
