@@ -7,14 +7,13 @@ import { mapOrder } from '~/utils/sorts'
 import {
   DndContext,
   // PointerSensor,
-  MouseSensor,
-  TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
   defaultDropAnimationSideEffects,
   closestCorners
 } from '@dnd-kit/core'
+import { MouseSensor, TouchSensor } from '~/customLibs/DnDKitSensors'
 import { arrayMove } from '@dnd-kit/sortable'
 import { cloneDeep, isEmpty } from 'lodash'
 import { generatePlaceholderCard } from '~/utils/formatters'
