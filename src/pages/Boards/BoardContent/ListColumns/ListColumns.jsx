@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
 import Column from './Column/Column'
 import Button from '@mui/material/Button'
@@ -14,16 +15,18 @@ function ListColumns({ columns }) {
   const [newColumnTitle, setNewColumnTitle] = useState('')
 
   const addNewColumn = () => {
-    if (!newColumnTitle) return
-    // console.log((newColumnTitle));
+    if (!newColumnTitle) {
+      toast.error('Please enter column title!')
+      return
+    }
 
-    // toggelNewColumnForm()
+    toggelNewColumnForm()
     setNewColumnTitle('')
   }
 
   return (
     /**
-     * SortableContext yeu cau items la 1 mang dang ['id-1', 'id-2'] not [{id: 'id-1'}, {id: 'id-2'}] 
+     * SortableContext yeu cau items la 1 mang dang ['id-1', 'id-2'] not [{id: 'id-1'}, {id: 'id-2'}]
      * Neu khong dung se khong co animation
      */
     <SortableContext items={columns?.map(c => c._id)} strategy={horizontalListSortingStrategy}>
@@ -98,7 +101,7 @@ function ListColumns({ columns }) {
                 sx={{
                   boxShadow: 'none',
                   // border: '1px solid',
-                  borderColor: (theme) => theme.palette.success.main,
+                  borderColor: (theme) => theme.palette.success.main
                   // '&:hover': { borderColor: (theme) => theme.palette.success.main }
                 }}
               >Add column</Button>
