@@ -42,6 +42,10 @@ function Board() {
     })
 
     // Cap nhat state board
+    const newBoard = { ...board }
+    newBoard.columns.push(createdColumn)
+    newBoard.columnOrderIds.push(createdColumn._id)
+    setBoard(newBoard)
   }
 
   const creatNewCard = async (newCardData) => {
@@ -51,6 +55,12 @@ function Board() {
     })
 
     // Cap nhat state board
+    const newBoard = { ...board }
+    const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
+    if (columnToUpdate) {
+      columnToUpdate.cards.push(createdCard)
+      columnToUpdate.cardOrderIds.push(createdCard._id)
+    }
   }
 
   // if (!board) return <div>Loading...</div>;
