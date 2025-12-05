@@ -7,6 +7,8 @@ import BoardContent from './BoardContent/BoardContent'
 // import { useParams } from 'react-router-dom'
 import { mockData } from '~/apis/mock-data'
 import { fetchBoardDetailsAPI, createNewCardAPI, createNewColumnAPI } from '~/apis'
+import { generatePlaceholderCard } from '~/utils/formatters'
+import { isEmpty } from 'lodash'
 
 function Board() {
   const [board, setBoard] = useState(null)
@@ -27,10 +29,17 @@ function Board() {
     //   }
     // }
 
+
     // fetchBoard()
     const boardId = '692b2128f9a85561876254c6'
 
     fetchBoardDetailsAPI(boardId).then((board) => {
+      board.columns.forEach(column => {
+        if (isEmpty(column.cards)) {
+          column.cards = [generatePlaceholderCard(column)]
+          column.cardOrderIds = [generatePlaceholderCard(column)._id]
+        }
+      })
       setBoard(board)
     })
   }, [])
@@ -45,6 +54,9 @@ function Board() {
     const newBoard = { ...board }
     newBoard.columns.push(createdColumn)
     newBoard.columnOrderIds.push(createdColumn._id)
+
+    createdColumn.cards = [generatePlaceholderCard(createdColumn)]
+    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
     setBoard(newBoard)
   }
 
