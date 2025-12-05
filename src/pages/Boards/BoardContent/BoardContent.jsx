@@ -23,7 +23,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent({ board }) {
+function BoardContent({ board, creatNewColumn, creatNewCard }) {
   // Neu dung pointer sensor mac dinh thi phai dung touch-action: 'none', nma con bug
   // Yeu cau chuot di chuyen 10px thi moi goi event, tranh click
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
@@ -291,7 +291,7 @@ function BoardContent({ board }) {
         width: '100%',
         height: (theme) => theme.trelloCustom.boardContentHeight
       }}>
-        <ListColumns columns={orderedColumns}/>
+        <ListColumns columns={orderedColumns} creatNewColumn={creatNewColumn} creatNewCard={creatNewCard}/>
         <DragOverlay dropAnimation={customDropAnimation}>
           {(!activeDragItemId || !activeDragItemType) && null}
           {(activeDragItemId && activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) && <Column column={activeDragItemData}/>}

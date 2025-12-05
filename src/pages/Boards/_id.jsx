@@ -6,7 +6,7 @@ import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
 // import { useParams } from 'react-router-dom'
 import { mockData } from '~/apis/mock-data'
-import { fetchBoardDetailsAPI } from '~/apis'
+import { fetchBoardDetailsAPI, createNewCardAPI, createNewColumnAPI } from '~/apis'
 
 function Board() {
   const [board, setBoard] = useState(null)
@@ -35,13 +35,31 @@ function Board() {
     })
   }, [])
 
+  const creatNewColumn = async (newColumnData) => {
+    const createdColumn = await createNewColumnAPI({
+      ...newColumnData,
+      boardId: board._id
+    })
+
+    // Cap nhat state board
+  }
+
+  const creatNewCard = async (newCardData) => {
+    const createdCard = await createNewCardAPI({
+      ...newCardData,
+      boardId: board._id
+    })
+
+    // Cap nhat state board
+  }
+
   // if (!board) return <div>Loading...</div>;
 
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
       <AppBar/>
-      <BoardBar board={mockData.board}/>
-      <BoardContent board={mockData.board}/>
+      <BoardBar board={board}/>
+      <BoardContent board={board} creatNewColumn={creatNewColumn} creatNewCard={creatNewCard}/>
     </Container>
   )
 }

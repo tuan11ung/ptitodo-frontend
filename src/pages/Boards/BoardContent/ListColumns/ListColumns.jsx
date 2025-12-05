@@ -8,18 +8,29 @@ import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortabl
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, creatNewColumn, creatNewCard }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(null)
   const toggelNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
 
   const [newColumnTitle, setNewColumnTitle] = useState('')
 
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error('Please enter column title!')
       return
     }
 
+    // Tao du lieu Column de goi API
+    const newColumnData = {
+      title: newColumnTitle
+    }
+
+    /**
+     * Goi len props function createNewColumn nam o component cha cao nhat
+     */
+    await creatNewColumn(newColumnData)
+
+    // Dong trang thai them column moi & clear input
     toggelNewColumnForm()
     setNewColumnTitle('')
   }
@@ -40,7 +51,7 @@ function ListColumns({ columns }) {
         '&::-webkit-scrollbar-track': { m: 2 }
       }}>
         {columns?.map((column) => {
-          return <Column key={column._id} column={column}/>
+          return <Column key={column._id} column={column} creatNewCard={creatNewCard}/>
         })}
 
         {/* BOX ADD NEW COLUMN */}
