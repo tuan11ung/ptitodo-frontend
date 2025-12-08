@@ -3,7 +3,6 @@ import { Box } from '@mui/material'
 import ListColumns from './ListColumns/ListColumns'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
-import { mapOrder } from '~/utils/sorts'
 import {
   DndContext,
   // PointerSensor,
@@ -23,7 +22,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn }) {
+function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn, moveCardInSameColumn }) {
   // Neu dung pointer sensor mac dinh thi phai dung touch-action: 'none', nma con bug
   // Yeu cau chuot di chuyen 10px thi moi goi event, tranh click
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
@@ -50,7 +49,7 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn }) {
   // Moi khi board thay doi thi cap nhat State voi du lieu da sap xep
   useEffect(() => {
     // const orderedColumns = mapOrder(board?.columns, board?.columnOrderIds, '_id')
-    setOrderedColumns(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
+    setOrderedColumns(board.columns)
   }, [board])
 
   // Tim 1 column theo cardId
@@ -208,15 +207,17 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn }) {
           activeDraggingCardData
         )
       } else {
-        // console.log("Hanh dong keo tha card trong cung 1 column");
+        // Hanh dong keo tha card trong cung 1 column
         // console.log('oldColumnWhenDraggingCard: ', oldColumnWhenDraggingCard);
         // Lay vi tri cu tu oldColumnWhenDraggingCard
         const oldCardIndex = oldColumnWhenDraggingCard?.cards?.findIndex(c => c._id === activeDragItemId)
-        // console.log('oldCardIndex: ', oldCardIndex);
+        // console.log('oldCardIndex: ', oldCardIndex)
         // Lay vi tri moi tu over
         const newCardIndex = overColumn?.cards?.findIndex(c => c._id === overCardId)
+        // console.log('newCardIndex: ', newCardIndex)
 
         const dndOrderedCards = arrayMove(oldColumnWhenDraggingCard?.cards, oldCardIndex, newCardIndex)
+        const dndOrderedCardIds = dndOrderedCards.map(card => card._id)
 
         setOrderedColumns(prevColumns => {
           // clone mang OrderedColumnsState cu ra 1 cai moi de xu ly data roi return - cap nhat lai OrderedColumnsState moi
@@ -227,11 +228,13 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn }) {
 
           // Cap nhat lai 2 gia tri moi la card va cardOrderIds trong cai targetColumn
           targetColumn.cards = dndOrderedCards
-          targetColumn.cardOrderIds = dndOrderedCards.map(card => card._id)
+          targetColumn.cardOrderIds = dndOrderedCardIds
 
           // Tra ve state moi chuan vi tri
           return nextColumns
         })
+
+        moveCardInSameColumn(dndOrderedCards, dndOrderedCardIds, oldColumnWhenDraggingCard._id)
       }
     }
 
@@ -249,13 +252,13 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn }) {
         const dndOrderedColumns = arrayMove(orderedColumns, oldColumnIndex, newColumnIndex)
         // const dndOrderedColumnsIds = dndOrderedColumns.map(c => c._id)
 
+        // Update State ban dau sau khi keo tha
+        setOrderedColumns(dndOrderedColumns)
+
         // Dung de xu ly goi APIs
         // console.log('dndOrderedColumns: ', dndOrderedColumns)
         // console.log('dndOrderedColumnsIds: ', dndOrderedColumnsIds)
         moveColumn(dndOrderedColumns)
-
-        // Update State ban dau sau khi keo tha
-        setOrderedColumns(dndOrderedColumns)
       }
     }
 
@@ -293,7 +296,11 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn }) {
         width: '100%',
         height: (theme) => theme.trelloCustom.boardContentHeight
       }}>
-        <ListColumns columns={orderedColumns} creatNewColumn={creatNewColumn} creatNewCard={creatNewCard}/>
+        <ListColumns
+          columns={orderedColumns}
+          creatNewColumn={creatNewColumn}
+          creatNewCard={creatNewCard}
+        />
         <DragOverlay dropAnimation={customDropAnimation}>
           {(!activeDragItemId || !activeDragItemType) && null}
           {(activeDragItemId && activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) && <Column column={activeDragItemData}/>}

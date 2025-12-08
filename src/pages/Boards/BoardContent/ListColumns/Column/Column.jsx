@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Box, Typography } from '@mui/material'
 import Tooltip from '@mui/material/Tooltip'
 import Menu from '@mui/material/Menu'
@@ -16,7 +16,6 @@ import AddCardIcon from '@mui/icons-material/AddCard'
 import Button from '@mui/material/Button'
 import DragHandleIcon from '@mui/icons-material/DragHandle'
 import ListCards from './ListCards/ListCards'
-import { mapOrder } from '~/utils/sorts'
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 import { toast } from 'react-toastify'
@@ -44,18 +43,33 @@ function Column({ column, creatNewCard }) {
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
+    if (openNewCardForm == true) {
+      toggelNewCardForm()
+    }
   }
   const handleClose = () => {
     setAnchorEl(null)
   }
 
-  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
+  const orderedCards = column.cards
 
   const [openNewCardForm, setOpenNewCardForm] = useState(null)
   const toggelNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
 
-  const [newCardTitle, setNewCardTitle] = useState('')
+  const inputRef = useRef(null)
 
+  useEffect(() => {
+    if (openNewCardForm && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [openNewCardForm])
+
+  const handleAddCardClick = () => {
+    handleClose()
+    toggelNewCardForm()
+  }
+
+  const [newCardTitle, setNewCardTitle] = useState('')
   const addNewCard = async () => {
     if (!newCardTitle) {
       toast.error('Please enter card title', { position: 'bottom-right' })
@@ -128,7 +142,7 @@ function Column({ column, creatNewCard }) {
                 }
               }}
             >
-              <MenuItem>
+              <MenuItem onClick={handleAddCardClick}>
                 <ListItemIcon>
                   <AddCardIcon fontSize="small" />
                 </ListItemIcon>
@@ -204,6 +218,7 @@ function Column({ column, creatNewCard }) {
                 size="small"
                 variant='outlined'
                 autoFocus
+                inputRef={inputRef}
                 onChange={(e) => setNewCardTitle(e.target.value)}
                 value={newCardTitle}
                 sx={{

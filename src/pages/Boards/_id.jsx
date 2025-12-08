@@ -1,12 +1,14 @@
 //board id
 import React, { useState, useEffect } from 'react'
-import { Container } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
+import CircularProgress from '@mui/material/CircularProgress';
 // import { useParams } from 'react-router-dom'
-import { mockData } from '~/apis/mock-data'
-import { fetchBoardDetailsAPI, createNewCardAPI, createNewColumnAPI, updateBoardDetailsAPI } from '~/apis'
+// import { mockData } from '~/apis/mock-data'
+import { mapOrder } from '~/utils/sorts'
+import { fetchBoardDetailsAPI, createNewCardAPI, createNewColumnAPI, updateBoardDetailsAPI, updateColumnDetailsAPI } from '~/apis'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { isEmpty } from 'lodash'
 
@@ -34,12 +36,17 @@ function Board() {
     const boardId = '692b2128f9a85561876254c6'
 
     fetchBoardDetailsAPI(boardId).then((board) => {
+      board.columns = mapOrder(board.columns, board.columnOrderIds, '_id')
+
       board.columns.forEach(column => {
         if (isEmpty(column.cards)) {
           column.cards = [generatePlaceholderCard(column)]
           column.cardOrderIds = [generatePlaceholderCard(column)._id]
+        } else {
+          column.card = mapOrder(column?.cards, column?.cardOrderIds, '_id')
         }
       })
+      console.log('full board:', board);
       setBoard(board)
     })
   }, [])
@@ -89,6 +96,28 @@ function Board() {
     await updateBoardDetailsAPI(newBoard._id, { columnOrderIds: newBoard.columnOrderIds })
   }
 
+  const moveCardInSameColumn = async (dndOrderedCards, dndOrderedCardIds, columnId) => {
+    const newBoard = { ...board }
+    const columnToUpdate = newBoard.columns.find(column => column._id === columnId)
+    if (columnToUpdate) {
+      columnToUpdate.cards = dndOrderedCards
+      columnToUpdate.cardOrderIds = dndOrderedCardIds
+    }
+    setBoard(newBoard)
+
+    // Goi api
+    await updateColumnDetailsAPI(columnId, { cardOrderIds: dndOrderedCardIds })
+  }
+
+  if (!board) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', flexDirection: 'column', gap: 2 }}>
+        <CircularProgress />
+        <Typography>Loading Board...</Typography>
+      </Box>
+    )
+  }
+
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
       <AppBar/>
@@ -98,6 +127,7 @@ function Board() {
         creatNewColumn={creatNewColumn}
         creatNewCard={creatNewCard}
         moveColumn={moveColumn}
+        moveCardInSameColumn={moveCardInSameColumn}
       />
     </Container>
   )
