@@ -6,7 +6,7 @@ import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
 // import { useParams } from 'react-router-dom'
 import { mockData } from '~/apis/mock-data'
-import { fetchBoardDetailsAPI, createNewCardAPI, createNewColumnAPI } from '~/apis'
+import { fetchBoardDetailsAPI, createNewCardAPI, createNewColumnAPI, updateBoardDetailsAPI } from '~/apis'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { isEmpty } from 'lodash'
 
@@ -50,13 +50,14 @@ function Board() {
       boardId: board._id
     })
 
+    createdColumn.cards = [generatePlaceholderCard(createdColumn)]
+    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
+
     // Cap nhat state board
     const newBoard = { ...board }
     newBoard.columns.push(createdColumn)
     newBoard.columnOrderIds.push(createdColumn._id)
 
-    createdColumn.cards = [generatePlaceholderCard(createdColumn)]
-    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
     setBoard(newBoard)
   }
 
@@ -75,13 +76,29 @@ function Board() {
     }
   }
 
-  // if (!board) return <div>Loading...</div>;
+  const moveColumn = async (dndOrderedColumns) => {
+    const dndOrderedColumnsIds = dndOrderedColumns.map(c => c._id)
+
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderedColumns
+    newBoard.columnOrderIds = dndOrderedColumnsIds
+
+    setBoard(newBoard)
+
+    // Goi api
+    await updateBoardDetailsAPI(newBoard._id, { columnOrderIds: newBoard.columnOrderIds })
+  }
 
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
       <AppBar/>
       <BoardBar board={board}/>
-      <BoardContent board={board} creatNewColumn={creatNewColumn} creatNewCard={creatNewCard}/>
+      <BoardContent
+        board={board}
+        creatNewColumn={creatNewColumn}
+        creatNewCard={creatNewCard}
+        moveColumn={moveColumn}
+      />
     </Container>
   )
 }

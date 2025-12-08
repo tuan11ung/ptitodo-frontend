@@ -23,7 +23,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent({ board, creatNewColumn, creatNewCard }) {
+function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn }) {
   // Neu dung pointer sensor mac dinh thi phai dung touch-action: 'none', nma con bug
   // Yeu cau chuot di chuyen 10px thi moi goi event, tranh click
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
@@ -217,6 +217,7 @@ function BoardContent({ board, creatNewColumn, creatNewCard }) {
         const newCardIndex = overColumn?.cards?.findIndex(c => c._id === overCardId)
 
         const dndOrderedCards = arrayMove(oldColumnWhenDraggingCard?.cards, oldCardIndex, newCardIndex)
+
         setOrderedColumns(prevColumns => {
           // clone mang OrderedColumnsState cu ra 1 cai moi de xu ly data roi return - cap nhat lai OrderedColumnsState moi
           const nextColumns = cloneDeep(prevColumns)
@@ -251,6 +252,7 @@ function BoardContent({ board, creatNewColumn, creatNewCard }) {
         // Dung de xu ly goi APIs
         // console.log('dndOrderedColumns: ', dndOrderedColumns)
         // console.log('dndOrderedColumnsIds: ', dndOrderedColumnsIds)
+        moveColumn(dndOrderedColumns)
 
         // Update State ban dau sau khi keo tha
         setOrderedColumns(dndOrderedColumns)
