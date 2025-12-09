@@ -8,7 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 // import { useParams } from 'react-router-dom'
 // import { mockData } from '~/apis/mock-data'
 import { mapOrder } from '~/utils/sorts'
-import { fetchBoardDetailsAPI, createNewCardAPI, createNewColumnAPI, updateBoardDetailsAPI, updateColumnDetailsAPI } from '~/apis'
+import { fetchBoardDetailsAPI, createNewCardAPI, createNewColumnAPI, updateBoardDetailsAPI, updateColumnDetailsAPI, moveCardToOtherColumnAPI } from '~/apis'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { isEmpty } from 'lodash'
 
@@ -109,6 +109,31 @@ function Board() {
     await updateColumnDetailsAPI(columnId, { cardOrderIds: dndOrderedCardIds })
   }
 
+  /**
+   * Khi di chuyen card sang column khac
+   * B1: cap nhat lai mang cardOrderIds cua column chua no (xoa _id o mang cu)
+   * B2: cap nhat mang cardOrderIds moi vao column moi 
+   * B3: cap nhat lai columnId cua card vua duoc keo
+   * => Lam 1 API support rieng
+   */
+  const moveCardToOtherColumn = (currentCardId, prevColumnId, nextColumnId, dndOrderedColumns ) => {
+    const dndOrderedColumnsIds = dndOrderedColumns.map(c => c._id)
+
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderedColumns
+    newBoard.columnOrderIds = dndOrderedColumnsIds
+
+    setBoard(newBoard)
+    
+    moveCardToOtherColumnAPI({
+      currentCardId,
+      prevColumnId,
+      prevCardOrderIds: dndOrderedColumns.find(c => c._id === prevColumnId)?.cardOrderIds,
+      nextColumnId,
+      nextCardOrderIds: dndOrderedColumns.find(c => c._id === nextColumnId)?.cardOrderIds,
+    })
+  }
+
   if (!board) {
     return (
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', flexDirection: 'column', gap: 2 }}>
@@ -128,6 +153,7 @@ function Board() {
         creatNewCard={creatNewCard}
         moveColumn={moveColumn}
         moveCardInSameColumn={moveCardInSameColumn}
+        moveCardToOtherColumn={moveCardToOtherColumn}
       />
     </Container>
   )

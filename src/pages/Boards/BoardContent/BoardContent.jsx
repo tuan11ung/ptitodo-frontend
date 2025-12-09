@@ -22,7 +22,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
   CARD: 'ACTIVE_DRAG_ITEM_TYPE_CARD'
 }
 
-function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn, moveCardInSameColumn }) {
+function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn, moveCardInSameColumn, moveCardToOtherColumn }) {
   // Neu dung pointer sensor mac dinh thi phai dung touch-action: 'none', nma con bug
   // Yeu cau chuot di chuyen 10px thi moi goi event, tranh click
   // const pointerSensor = useSensor(PointerSensor, { activationConstraint: { distance: 10 } })
@@ -58,7 +58,7 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn, moveCar
     return orderedColumns.find(column => column?.cards?.map(card => card._id)?.includes(cardId))
   }
 
-  // Cap nhat lai State khi di chuyen card giua cac column khac nhau
+  // Function cap nhat lai State khi di chuyen card giua cac column khac nhau
   const moveCardBetweenDifferentColumns = (
     overColumn,
     overCardId,
@@ -66,7 +66,8 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn, moveCar
     over,
     activeColumn,
     activeDraggingCardId,
-    activeDraggingCardData
+    activeDraggingCardData,
+    triggerFrom
   ) => {
     setOrderedColumns(prevColumns => {
       const overCardIndex = overColumn?.cards?.findIndex(card => card._id === overCardId)
@@ -115,6 +116,10 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn, moveCar
 
         // Cap nhat lai mang cardOrderIds cho chuan du lieu
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(card => card._id)
+      }
+
+      if (triggerFrom == 'handleDragEnd') {
+        moveCardToOtherColumn(activeDraggingCardId, oldColumnWhenDraggingCard._id, nextOverColumn._id, nextColumns)
       }
 
       return nextColumns
@@ -169,7 +174,8 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn, moveCar
         over,
         activeColumn,
         activeDraggingCardId,
-        activeDraggingCardData
+        activeDraggingCardData,
+        'handleDragOver'
       )
     }
   }
@@ -204,7 +210,8 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn, moveCar
           over,
           activeColumn,
           activeDraggingCardId,
-          activeDraggingCardData
+          activeDraggingCardData,
+          'handleDragEnd'
         )
       } else {
         // Hanh dong keo tha card trong cung 1 column
