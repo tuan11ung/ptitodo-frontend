@@ -4,7 +4,7 @@ import { Box, Container, Typography } from '@mui/material'
 import AppBar from '~/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress'
 // import { useParams } from 'react-router-dom'
 // import { mockData } from '~/apis/mock-data'
 import { mapOrder } from '~/utils/sorts'
@@ -46,7 +46,7 @@ function Board() {
           column.card = mapOrder(column?.cards, column?.cardOrderIds, '_id')
         }
       })
-      console.log('full board:', board);
+      // console.log('full board:', board);
       setBoard(board)
     })
   }, [])
@@ -77,9 +77,15 @@ function Board() {
     // Cap nhat state board
     const newBoard = { ...board }
     const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
+    console.log('🚀 ~ creatNewCard ~ columnToUpdate:', columnToUpdate)
     if (columnToUpdate) {
-      columnToUpdate.cards.push(createdCard)
-      columnToUpdate.cardOrderIds.push(createdCard._id)
+      if (columnToUpdate.cards.some(card => card.FE_PlaceholderCard)) {
+        columnToUpdate.cards = [createdCard]
+        columnToUpdate.cardOrderIds = [createdCard._id]
+      } else {
+        columnToUpdate.cards.push(createdCard)
+        columnToUpdate.cardOrderIds.push(createdCard._id)
+      }
     }
   }
 
@@ -112,11 +118,11 @@ function Board() {
   /**
    * Khi di chuyen card sang column khac
    * B1: cap nhat lai mang cardOrderIds cua column chua no (xoa _id o mang cu)
-   * B2: cap nhat mang cardOrderIds moi vao column moi 
+   * B2: cap nhat mang cardOrderIds moi vao column moi
    * B3: cap nhat lai columnId cua card vua duoc keo
    * => Lam 1 API support rieng
    */
-  const moveCardToOtherColumn = (currentCardId, prevColumnId, nextColumnId, dndOrderedColumns ) => {
+  const moveCardToOtherColumn = async (currentCardId, prevColumnId, nextColumnId, dndOrderedColumns ) => {
     const dndOrderedColumnsIds = dndOrderedColumns.map(c => c._id)
 
     const newBoard = { ...board }
@@ -124,14 +130,21 @@ function Board() {
     newBoard.columnOrderIds = dndOrderedColumnsIds
 
     setBoard(newBoard)
-    
-    moveCardToOtherColumnAPI({
+
+    let prevCardOrderIds = dndOrderedColumns.find(c => c._id === prevColumnId)?.cardOrderIds
+    if (prevCardOrderIds[0].includes('placeholder-card')) prevCardOrderIds = []
+
+    await moveCardToOtherColumnAPI({
       currentCardId,
       prevColumnId,
-      prevCardOrderIds: dndOrderedColumns.find(c => c._id === prevColumnId)?.cardOrderIds,
+      prevCardOrderIds,
       nextColumnId,
-      nextCardOrderIds: dndOrderedColumns.find(c => c._id === nextColumnId)?.cardOrderIds,
+      nextCardOrderIds: dndOrderedColumns.find(c => c._id === nextColumnId)?.cardOrderIds
     })
+  }
+
+  const deleteColumn = (columnId) => {
+    console.log('🚀 ~ deleteColumn ~ columnId:', columnId)
   }
 
   if (!board) {

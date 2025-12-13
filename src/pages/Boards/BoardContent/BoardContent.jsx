@@ -118,7 +118,7 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn, moveCar
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(card => card._id)
       }
 
-      if (triggerFrom == 'handleDragEnd') {
+      if (triggerFrom === 'handleDragEnd') {
         moveCardToOtherColumn(activeDraggingCardId, oldColumnWhenDraggingCard._id, nextOverColumn._id, nextColumns)
       }
 
@@ -166,7 +166,7 @@ function BoardContent({ board, creatNewColumn, creatNewCard, moveColumn, moveCar
 
     // Xu ly logic khi keo card qua 2 columns khac nhau, con neu keo card trong chinh column ban dau cua no thi khong lam gi
     // Dat la luc xu ly khi keo, con xu ly luc keo xong thi o handleDragEnd
-    if (activeColumn._id !== overColumn._id) {
+    if (oldColumnWhenDraggingCard._id !== overColumn._id) {
       moveCardBetweenDifferentColumns(
         overColumn,
         overCardId,

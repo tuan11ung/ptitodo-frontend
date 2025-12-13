@@ -85,7 +85,8 @@ function BoardBar({ board }) {
             color: 'white',
             borderColor: 'white',
             '&:hover': {
-              borderColor: 'white'
+              borderColor: 'white',
+              backgroundColor: '#2980b9'
             }
           }}
           startIcon={<PersonAddIcon/>}>Invite</Button>

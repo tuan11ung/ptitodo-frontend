@@ -25,7 +25,9 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 // import theme from '~/theme'
 
-function Column({ column, creatNewCard }) {
+import { useConfirm } from 'material-ui-confirm'
+
+function Column({ column, creatNewCard, deleteColumn }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
@@ -63,11 +65,6 @@ function Column({ column, creatNewCard }) {
       inputRef.current.focus()
     }
   }, [openNewCardForm])
-
-  const handleAddCardClick = () => {
-    handleClose()
-    toggelNewCardForm()
-  }
 
   const [newCardTitle, setNewCardTitle] = useState('')
   const addNewCard = async () => {
@@ -141,9 +138,20 @@ function Column({ column, creatNewCard }) {
                   'aria-labelledby': 'basic-column-dropdown'
                 }
               }}
+              onClick={handleClose}
             >
-              <MenuItem onClick={handleAddCardClick}>
-                <ListItemIcon>
+              <MenuItem
+                onClick={toggelNewCardForm}
+                sx={{
+                  '&:hover': {
+                    color: 'primary.light',
+                    '& .add-card-icon': {
+                      color: 'primary.light'
+                    }
+                  }
+                }}
+              >
+                <ListItemIcon className='add-card-icon'>
                   <AddCardIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText>Add new card</ListItemText>
