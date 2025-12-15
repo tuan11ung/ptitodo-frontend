@@ -8,9 +8,11 @@ import CircularProgress from '@mui/material/CircularProgress'
 // import { useParams } from 'react-router-dom'
 // import { mockData } from '~/apis/mock-data'
 import { mapOrder } from '~/utils/sorts'
-import { fetchBoardDetailsAPI, createNewCardAPI, createNewColumnAPI, updateBoardDetailsAPI, updateColumnDetailsAPI, moveCardToOtherColumnAPI } from '~/apis'
+import { fetchBoardDetailsAPI, createNewCardAPI, createNewColumnAPI, updateBoardDetailsAPI, updateColumnDetailsAPI, moveCardToOtherColumnAPI, deleteColumnAPI } from '~/apis'
 import { generatePlaceholderCard } from '~/utils/formatters'
 import { isEmpty } from 'lodash'
+
+import { toast } from 'react-toastify'
 
 function Board() {
   const [board, setBoard] = useState(null)
@@ -145,6 +147,17 @@ function Board() {
 
   const deleteColumn = (columnId) => {
     console.log('🚀 ~ deleteColumn ~ columnId:', columnId)
+
+    const newBoard = { ...board }
+    newBoard.columns = newBoard.columns.filter(c => c._id !== columnId)
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== columnId)
+
+    setBoard(newBoard)
+
+    deleteColumnAPI(columnId).then(res => {
+      console.log('🚀 ~ deleteColumn ~ res:', res)
+      toast.success(res?.result)
+    })
   }
 
   if (!board) {
@@ -167,6 +180,7 @@ function Board() {
         moveColumn={moveColumn}
         moveCardInSameColumn={moveCardInSameColumn}
         moveCardToOtherColumn={moveCardToOtherColumn}
+        deleteColumn={deleteColumn}
       />
     </Container>
   )

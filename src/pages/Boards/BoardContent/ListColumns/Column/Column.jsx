@@ -87,6 +87,20 @@ function Column({ column, creatNewCard, deleteColumn }) {
     setNewCardTitle('')
   }
 
+  const confirmDelete = useConfirm()
+
+  const handleDeleteColumn = () => {
+    confirmDelete({
+      title: 'Delete Column?',
+      description: 'This action will permanently delete your Column and its Cards! Are you sure?',
+      confirmationText: 'Confirm'
+    })
+      .then(() => {
+        deleteColumn(column._id)
+      })
+      .catch(() => {})
+  }
+
   return (
     <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>
       <Box
@@ -175,11 +189,21 @@ function Column({ column, creatNewCard, deleteColumn }) {
                 <ListItemText>Paste</ListItemText>
               </MenuItem>
               <Divider />
-              <MenuItem>
+              <MenuItem
+                sx={{
+                  '&:hover': {
+                    color: 'error.light',
+                    '& .delete-icon': {
+                      color: 'error.light'
+                    }
+                  }
+                }}
+                onClick={handleDeleteColumn}
+              >
                 <ListItemIcon>
-                  <DeleteIcon fontSize="small" />
+                  <DeleteIcon className='delete-icon' fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>Remove this column</ListItemText>
+                <ListItemText>Delete this column</ListItemText>
               </MenuItem>
               <MenuItem>
                 <ListItemIcon>
