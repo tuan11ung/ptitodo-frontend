@@ -8,7 +8,18 @@ import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortabl
 import TextField from '@mui/material/TextField'
 import CloseIcon from '@mui/icons-material/Close'
 
-function ListColumns({ columns, creatNewColumn, creatNewCard, deleteColumn }) {
+import { generatePlaceholderCard } from '~/utils/formatters'
+import { cloneDeep } from 'lodash'
+
+import { createNewColumnAPI } from '~/apis/index'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { updateCurrentActiveBoard, activeBoardSelector } from '~/redux/activeBoard/activeBoardSlice'
+
+function ListColumns({ columns }) {
+  const dispatch = useDispatch()
+  const board = useSelector(activeBoardSelector)
+
   const [openNewColumnForm, setOpenNewColumnForm] = useState(null)
   const toggelNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
 
@@ -28,7 +39,20 @@ function ListColumns({ columns, creatNewColumn, creatNewCard, deleteColumn }) {
     /**
      * Goi len props function createNewColumn nam o component cha cao nhat
      */
-    await creatNewColumn(newColumnData)
+    const createdColumn = await createNewColumnAPI({
+      ...newColumnData,
+      boardId: board._id
+    })
+
+    createdColumn.cards = [generatePlaceholderCard(createdColumn)]
+    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id]
+
+    // Cap nhat state board
+    const newBoard = cloneDeep(board)
+    newBoard.columns.push(createdColumn)
+    newBoard.columnOrderIds.push(createdColumn._id)
+
+    dispatch(updateCurrentActiveBoard(newBoard))
 
     // Dong trang thai them column moi & clear input
     toggelNewColumnForm()
@@ -51,7 +75,7 @@ function ListColumns({ columns, creatNewColumn, creatNewCard, deleteColumn }) {
         '&::-webkit-scrollbar-track': { m: 2 }
       }}>
         {columns?.map((column) => {
-          return <Column key={column._id} column={column} creatNewCard={creatNewCard} deleteColumn={deleteColumn}/>
+          return <Column key={column._id} column={column}/>
         })}
 
         {/* BOX ADD NEW COLUMN */}
