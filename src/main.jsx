@@ -1,7 +1,5 @@
 import CssBaseline from '@mui/material/CssBaseline'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
-import { StrictMode } from 'react'
-// import { createRoot } from 'react-dom/client'
 import ReactDOM from 'react-dom/client'
 import theme from '~/theme'
 import App from '~/App.jsx'
