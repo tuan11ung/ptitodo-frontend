@@ -95,7 +95,6 @@ function Column({ column }) {
     // Cap nhat state board
     const newBoard = cloneDeep(board)
     const columnToUpdate = newBoard.columns.find(column => column._id === createdCard.columnId)
-    console.log('🚀 ~ creatNewCard ~ columnToUpdate:', columnToUpdate)
     if (columnToUpdate) {
       if (columnToUpdate.cards.some(card => card.FE_PlaceholderCard)) {
         columnToUpdate.cards = [createdCard]
@@ -119,7 +118,6 @@ function Column({ column }) {
     dispatch(updateCurrentActiveBoard(newBoard))
 
     deleteColumnAPI(columnId).then(res => {
-      console.log('🚀 ~ deleteColumn ~ res:', res)
       toast.success(res?.result)
     })
   }
