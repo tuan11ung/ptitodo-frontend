@@ -7,6 +7,8 @@ import BoardContent from './BoardContent/BoardContent'
 import CircularProgress from '@mui/material/CircularProgress'
 import { cloneDeep } from 'lodash'
 
+import { useParams } from 'react-router-dom'
+
 import { updateBoardDetailsAPI, updateColumnDetailsAPI, moveCardToOtherColumnAPI } from '~/apis'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,14 +19,16 @@ function Board() {
   const board = useSelector(activeBoardSelector)
   const dispatch = useDispatch()
 
+  const { boardId } = useParams()
+
   useEffect(() => {
 
     // fetchBoard()
-    const boardId = '692b2128f9a85561876254c6'
+    // const boardId = '692b2128f9a85561876254c6'
 
     dispatch(fetchBoardDetailsAPI(boardId))
 
-  }, [dispatch])
+  }, [dispatch, boardId])
 
   const moveColumn = async (dndOrderedColumns) => {
     const dndOrderedColumnsIds = dndOrderedColumns.map(c => c._id)
