@@ -18,7 +18,6 @@ import {
   FIELD_REQUIRED_MESSAGE,
   EMAIL_RULE,
   EMAIL_RULE_MESSAGE,
-  PASSWORD_CONFIRMATION_MESSAGE,
   PASSWORD_RULE_MESSAGE,
   PASSWORD_RULE
 } from '~/utils/validators'
@@ -27,8 +26,7 @@ function LoginForm() {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
+    formState: { errors }
   } = useForm()
 
   const submitLogIn = (data) => {
@@ -120,7 +118,7 @@ function LoginForm() {
             </Button>
           </CardActions>
           <Box sx={{ padding: '0 1em 1em 1em', textAlign: 'center' }}>
-            <Typography>New to Trello MERN Stack Advanced?</Typography>
+            <Typography>New to PTITodo?</Typography>
             <Link to="/register" style={{ textDecoration: 'none' }}>
               <Typography sx={{ color: 'primary.main', '&:hover': { color: '#ffbb39' } }}>Create account!</Typography>
             </Link>
