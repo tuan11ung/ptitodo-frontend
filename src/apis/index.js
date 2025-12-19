@@ -1,14 +1,8 @@
+import { toast } from 'react-toastify'
 import authorizeAxiosInstance from '~/utils/authorizeAxios'
 import { API_ROOT } from '~/utils/constants'
 
 // Board
-export const fetchBoardDetailsAPI = async (boardId) => {
-  const response = await authorizeAxiosInstance.get(`${API_ROOT}/v1/boards/${boardId}`)
-
-  // Axios se tra ve ket qua ve qua property cua no la data
-  return response.data
-}
-
 export const updateBoardDetailsAPI = async (boardId, updateData) => {
   const response = await authorizeAxiosInstance.put(`${API_ROOT}/v1/boards/${boardId}`, updateData)
   return response.data
@@ -38,5 +32,11 @@ export const createNewCardAPI = async (newCardData) => {
 
 export const moveCardToOtherColumnAPI = async (updateData) => {
   const response = await authorizeAxiosInstance.put(`${API_ROOT}/v1/boards/support/moving-cards`, updateData)
+  return response.data
+}
+
+export const registerUserAPI = async (data) => {
+  const response = await authorizeAxiosInstance.post(`${API_ROOT}/v1/users/register`, data)
+  toast.success('Account created successfully!')
   return response.data
 }

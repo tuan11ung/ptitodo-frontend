@@ -1,5 +1,5 @@
 // TrungQuanDev: https://youtube.com/@trungquandev
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
@@ -11,6 +11,10 @@ import TextField from '@mui/material/TextField'
 import Zoom from '@mui/material/Zoom'
 import Alert from '@mui/material/Alert'
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
+import { toast } from 'react-toastify'
+
+import { useDispatch } from 'react-redux'
+import { loginUserAPI } from '~/redux/user/userSlice'
 
 import { useForm } from 'react-hook-form'
 
@@ -23,15 +27,28 @@ import {
 } from '~/utils/validators'
 
 function LoginForm() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm()
+  let [searchParams] = useSearchParams()
+  const registeredEmail = searchParams.get('registeredEmail')
 
   const submitLogIn = (data) => {
-    console.log('🚀 ~ submitLogIn ~ data:', data)
+    console.log('🚀 ~ submitRegister ~ data:', data)
     //Goi api
+    const { email, password } = data
+
+    toast.promise(
+      dispatch(loginUserAPI({ email, password })),
+      { pending: 'Registration is in progress...'}
+    ).then(res => {
+      if (!res.error) navigate('/')
+    })
   }
   return (
     <form onSubmit={handleSubmit(submitLogIn)}>
@@ -56,7 +73,7 @@ function LoginForm() {
               }}
             /></Avatar>
           </Box>
-          <Box sx={{ marginTop: '1em', display: 'flex', justifyContent: 'center', flexDirection: 'column', padding: '0 1em' }}>
+          {/* <Box sx={{ marginTop: '1em', display: 'flex', justifyContent: 'center', flexDirection: 'column', padding: '0 1em' }}>
             <Alert severity="success" sx={{ '.MuiAlert-message': { overflow: 'hidden' } }}>
               Your email&nbsp;
               <Typography variant="span" sx={{ fontWeight: 'bold', '&:hover': { color: '#fdba26' } }}>trungquandev@gmail.com</Typography>
@@ -67,7 +84,7 @@ function LoginForm() {
               <Typography variant="span" sx={{ fontWeight: 'bold', '&:hover': { color: '#fdba26' } }}>trungquandev@gmail.com</Typography>
               <br />Please check and verify your account before logging in!
             </Alert>
-          </Box>
+          </Box> */}
           <Box sx={{ padding: '0 1em 1em 1em' }}>
             <Box sx={{ marginTop: '1em' }}>
               <TextField
