@@ -43,9 +43,7 @@ function RegisterForm() {
     toast.promise(
       registerUserAPI({ email, password }),
       { pending: 'Registration is in progress...'}
-    ).then(user => {
-      navigate('/login')
-    })
+    ).then(navigate('/login'))
   }
   return (
     <form onSubmit={handleSubmit(submitRegister)}>
