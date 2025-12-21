@@ -19,7 +19,7 @@ export const createNewBoardAPI = async (data) => {
   return response.data
 }
 
-// Columns
+// Column
 export const createNewColumnAPI = async (newColumnData) => {
   const response = await authorizeAxiosInstance.post(`${API_ROOT}/v1/columns`, newColumnData)
   return response.data
@@ -35,7 +35,7 @@ export const deleteColumnAPI = async (columnId) => {
   return response.data
 }
 
-// Cards
+// Card
 export const createNewCardAPI = async (newCardData) => {
   const response = await authorizeAxiosInstance.post(`${API_ROOT}/v1/cards`, newCardData)
   return response.data
@@ -46,6 +46,12 @@ export const moveCardToOtherColumnAPI = async (updateData) => {
   return response.data
 }
 
+export const updateCardDetailsAPI = async (cardId, updateData) => {
+  const response = await authorizeAxiosInstance.put(`${API_ROOT}/v1/cards/${cardId}`, updateData)
+  return response.data
+}
+
+// User
 export const registerUserAPI = async (data) => {
   const response = await authorizeAxiosInstance.post(`${API_ROOT}/v1/users/register`, data)
   toast.success('Account created successfully!')

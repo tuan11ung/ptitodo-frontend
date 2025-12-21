@@ -29,7 +29,19 @@ export const activeBoardSlice = createSlice({
       // Xu li logic
 
       state.currentActiveBoard = board
-    }
+    },
+    // https://redux-toolkit.js.org/usage/immer-reducers#updating-nested-data
+    updateCardInBoard: (state, action) => {
+      const incomingCard = action.payload
+      // Board > Column > Card
+      const column = state.currentActiveBoard.columns.find(i => i._id === incomingCard.columnId)
+      if (column) {
+        const card = column.cards.find(i => i._id === incomingCard._id)
+        if (card) {
+          card.title = incomingCard.title
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchBoardDetailsAPI.fulfilled, (state, action) => {
@@ -52,7 +64,7 @@ export const activeBoardSlice = createSlice({
 })
 
 // Danh cho component con goi len thay doi du lieu
-export const { updateCurrentActiveBoard } = activeBoardSlice.actions
+export const { updateCurrentActiveBoard, updateCardInBoard } = activeBoardSlice.actions
 
 // Danh cho component con goi len de lay du lieu
 export const activeBoardSelector = (state) => {

@@ -33,10 +33,8 @@ function SecurityTab() {
       cancellationText: 'Cancel'
     }).then(() => {
       const { current_password, new_password } = data
-      console.log('🚀 ~ submitChangePassword ~ new_password:', new_password)
-      console.log('🚀 ~ submitChangePassword ~ current_password:', current_password)
       toast.promise(
-        
+
         dispatch(updateUserAPI({ current_password, new_password })),
         { pending: 'Updating...' }
       ).then(res => {
