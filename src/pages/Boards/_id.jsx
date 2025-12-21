@@ -14,14 +14,12 @@ import { updateBoardDetailsAPI, updateColumnDetailsAPI, moveCardToOtherColumnAPI
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchBoardDetailsAPI, updateCurrentActiveBoard, activeBoardSelector } from '~/redux/activeBoard/activeBoardSlice'
 import ActiveCard from '~/components/Modal/ActiveCard/ActiveCard'
-import { activeCardSelector } from '~/redux/activeCard/activeCardSlice'
 
 function Board() {
 
   const dispatch = useDispatch()
 
   const board = useSelector(activeBoardSelector)
-  const activeCard = useSelector(activeCardSelector)
 
   const { boardId } = useParams()
 
@@ -101,8 +99,7 @@ function Board() {
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh' }}>
       {/* Modal active card, check dong mo dua dua theo data activeCard luu trong redux, co thi render */}
-      {activeCard && <ActiveCard />}
-      {/* <ActiveCard /> */}
+      <ActiveCard />
 
       <AppBar/>
       <BoardBar board={board}/>
