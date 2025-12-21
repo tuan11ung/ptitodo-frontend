@@ -31,18 +31,17 @@ function RegisterForm() {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors }
   } = useForm()
   const navigate = useNavigate()
 
   const submitRegister = (data) => {
-    console.log('🚀 ~ submitRegister ~ data:', data)
     //Goi api
     const { email, password } = data
 
     toast.promise(
       registerUserAPI({ email, password }),
-      { pending: 'Registration is in progress...'}
+      { pending: 'Registration is in progress...' }
     ).then(navigate('/login'))
   }
   return (

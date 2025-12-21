@@ -7,6 +7,10 @@ import { API_ROOT } from '~/utils/constants'
 import { mapOrder } from '~/utils/sorts'
 import { generatePlaceholderCard } from '~/utils/formatters'
 
+const initialState = {
+  currentActiveBoard: null
+}
+
 export const fetchBoardDetailsAPI = createAsyncThunk(
   'activeBoard/fetchBoardDetailsAPI',
   async (boardId) => {
@@ -14,10 +18,6 @@ export const fetchBoardDetailsAPI = createAsyncThunk(
     return response.data
   }
 )
-
-const initialState = {
-  currentActiveBoard: null
-}
 
 export const activeBoardSlice = createSlice({
   name: 'activeBoard',

@@ -1,5 +1,5 @@
 // TrungQuanDev: https://youtube.com/@trungquandev
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Avatar from '@mui/material/Avatar'
@@ -9,7 +9,6 @@ import { Card as MuiCard } from '@mui/material'
 import CardActions from '@mui/material/CardActions'
 import TextField from '@mui/material/TextField'
 import Zoom from '@mui/material/Zoom'
-import Alert from '@mui/material/Alert'
 import FieldErrorAlert from '~/components/Form/FieldErrorAlert'
 import { toast } from 'react-toastify'
 
@@ -35,17 +34,14 @@ function LoginForm() {
     handleSubmit,
     formState: { errors }
   } = useForm()
-  let [searchParams] = useSearchParams()
-  const registeredEmail = searchParams.get('registeredEmail')
 
   const submitLogIn = (data) => {
-    console.log('🚀 ~ submitRegister ~ data:', data)
     //Goi api
     const { email, password } = data
 
     toast.promise(
       dispatch(loginUserAPI({ email, password })),
-      { pending: 'Registration is in progress...'}
+      { pending: 'Registration is in progress...' }
     ).then(res => {
       if (!res.error) navigate('/')
     })
