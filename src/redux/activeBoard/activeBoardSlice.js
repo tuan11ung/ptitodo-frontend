@@ -38,7 +38,10 @@ export const activeBoardSlice = createSlice({
       if (column) {
         const card = column.cards.find(i => i._id === incomingCard._id)
         if (card) {
-          card.title = incomingCard.title
+          // card.title = incomingCard.title
+          Object.keys(incomingCard).forEach(key => {
+            card[key] = incomingCard[key]
+          })
         }
       }
     },
@@ -46,6 +49,9 @@ export const activeBoardSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchBoardDetailsAPI.fulfilled, (state, action) => {
       let board = action.payload
+
+      // Thanh vien trong board se la gop cua owners va members
+      board.FE_allUsers = board.owners.concat(board.members)
 
       board.columns = mapOrder(board.columns, board.columnOrderIds, '_id')
 

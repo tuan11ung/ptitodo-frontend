@@ -82,6 +82,10 @@ function ActiveCard() {
     callApiUpdateCard({ title: newTitle.trim() })
   }
 
+  const onUpdateCardDescription = (newDescription) => {
+    callApiUpdateCard({ description: newDescription })
+  }
+
   const onUploadCardCover = (event) => {
     console.log(event.target?.files[0])
     const error = singleFileValidator(event.target?.files[0])
@@ -92,7 +96,16 @@ function ActiveCard() {
     let reqData = new FormData()
     reqData.append('cardCover', event.target?.files[0])
 
-    callApiUpdateCard(reqData)
+    toast.promise(
+      callApiUpdateCard(reqData),
+      { pending: 'Updating...' }
+    ).then(res => {
+      if (!res.error) {
+        toast.success('Card cover updated successfully')
+      }
+      // Dù thành công hay thất bại cũng phải clear value của file input để có thể chọn cùng 1 file trong lần tiếp theo
+      event.target.value = ''
+    })
   }
 
   return (
@@ -160,7 +173,10 @@ function ActiveCard() {
               </Box>
 
               {/* Xử lý mô tả của Card */}
-              <CardDescriptionMdEditor />
+              <CardDescriptionMdEditor
+                cardDescriptionProp={activeCard?.description}
+                handleUpdateCardDescription={onUpdateCardDescription}
+              />
             </Box>
 
             <Box sx={{ mb: 3 }}>
