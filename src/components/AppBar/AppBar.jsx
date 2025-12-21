@@ -39,9 +39,13 @@ function AppBar() {
       '&::-webkit-scrollbar-track': { m: 1 }
     }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <AppsIcon sx={{ color: 'white' }}/>
+        <Link to={'/boards'} style={{ color: 'inherit' }}>
+          <Tooltip title="Boards List">
+            <AppsIcon sx={{ color: 'white', verticalAlign: 'middle' }}/>
+          </Tooltip>
+        </Link>
         {/* <img src={ptitLogo} style={{ width: '24px', height: '24px' }}/> */}
-        <Link to={'/'} style={{ color: 'inherit' }}>
+        <Link to={'/boards'} style={{ color: 'inherit' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
             {/* <SvgIcon component={ptitLogo} sx={{ width: '40px', height: '40px' }} inheritViewBox /> */}
             <Box

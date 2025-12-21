@@ -81,7 +81,17 @@ function AccountTab() {
       console.log('reqData Value: ', value)
     }
 
-    // Gọi API...
+    // Gọi API
+    toast.promise(
+      dispatch(updateUserAPI(reqData)),
+      { pending: 'Updating...' }
+    ).then(res => {
+      if (!res.error) {
+        toast.success('User updated successfully')
+      }
+      // Dù thành công hay thất bại cũng phải clear value của file input để có thể chọn cùng 1 file trong lần tiếp theo
+      e.target.value = ''
+    })
   }
 
   return (
@@ -104,7 +114,6 @@ function AccountTab() {
           <Box>
             <Avatar
               sx={{ width: 84, height: 84, mb: 1 }}
-              alt="TrungQuanDev"
               src={currentUser?.avatar}
             />
             <Tooltip title="Upload a new image to update your avatar immediately.">

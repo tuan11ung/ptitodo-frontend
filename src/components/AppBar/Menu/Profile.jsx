@@ -56,6 +56,7 @@ function Profile() {
         >
           <Avatar
             sx={{ width: 34, height: 34 }}
+            src={currentUser?.avatar}
           />
         </IconButton>
       </Tooltip>
@@ -71,7 +72,7 @@ function Profile() {
           }
         }}
       >
-        <Link to={'/settings/account'} >
+        <Link to={'/settings/account'} style={{ color: 'inherit' }}>
           <MenuItem
             sx={{
               '&:hover': { color:'primary.main' }
@@ -79,22 +80,25 @@ function Profile() {
           >
             <Avatar
               sx={{ width: 28, height: 28, mr: 2 }}
+              src={currentUser?.avatar}
             /> Profile
           </MenuItem>
         </Link>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        {/* <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
           Add another account
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
+        </MenuItem> */}
+        <Link to={'/settings/account'} style={{ color: 'inherit' }}>
+          <MenuItem onClick={handleClose} sx={{ minWidth: '220px' }}>
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
+        </Link>
         <MenuItem
           sx={{
             '&:hover': { 
