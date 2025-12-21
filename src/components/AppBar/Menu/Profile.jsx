@@ -16,6 +16,7 @@ import { currentUserSelector } from '~/redux/user/userSlice'
 import { logoutUserAPI } from '~/redux/user/userSlice'
 import { useConfirm } from 'material-ui-confirm'
 
+import { Link } from 'react-router-dom'
 
 function Profile() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -55,7 +56,6 @@ function Profile() {
         >
           <Avatar
             sx={{ width: 34, height: 34 }}
-            src='https://yt3.ggpht.com/yti/ANjgQV8VnKoPIgSssCBNX0ZVJCjtxosld3ereCDaK8SaKvk=s88-c-k-c0x00ffffff-no-rj'
           />
         </IconButton>
       </Tooltip>
@@ -71,16 +71,17 @@ function Profile() {
           }
         }}
       >
-        <MenuItem
-          sx={{
-            '&:hover': { color:'primary.main' }
-          }}
-        >
-          <Avatar
-            sx={{ width: 28, height: 28, mr: 2 }}
-            src='https://yt3.ggpht.com/yti/ANjgQV8VnKoPIgSssCBNX0ZVJCjtxosld3ereCDaK8SaKvk=s88-c-k-c0x00ffffff-no-rj'
-          /> Profile
-        </MenuItem>
+        <Link to={'/settings/account'} >
+          <MenuItem
+            sx={{
+              '&:hover': { color:'primary.main' }
+            }}
+          >
+            <Avatar
+              sx={{ width: 28, height: 28, mr: 2 }}
+            /> Profile
+          </MenuItem>
+        </Link>
         <Divider />
         <MenuItem onClick={handleClose}>
           <ListItemIcon>

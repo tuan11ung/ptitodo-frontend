@@ -21,6 +21,8 @@ import SearchIcon from '@mui/icons-material/Search'
 import Profile from './Menu/Profile'
 import CloseIcon from '@mui/icons-material/Close'
 
+import { Link } from 'react-router-dom'
+
 function AppBar() {
   const [searchValue, setSearchValue] = useState('')
 
@@ -39,23 +41,25 @@ function AppBar() {
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <AppsIcon sx={{ color: 'white' }}/>
         {/* <img src={ptitLogo} style={{ width: '24px', height: '24px' }}/> */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-          {/* <SvgIcon component={ptitLogo} sx={{ width: '40px', height: '40px' }} inheritViewBox /> */}
-          <Box
-            component="img"
-            src="https://ptit.edu.vn/wp-content/uploads/2023/06/logo-footer-svg.svg"
-            alt="PTIT Logo"
-            sx={{
-              height: 32, // Điều chỉnh kích thước theo nhu cầu
-              width: 32,
-              objectFit: 'cover', // 'cover', 'contain', 'fill'
-              objectPosition: 'left' // Vị trí crop
-            }}
-          />
-          <Typography variant="span" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white' }}>
-            PTITodo
-          </Typography>
-        </Box>
+        <Link to={'/'} style={{ color: 'inherit' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            {/* <SvgIcon component={ptitLogo} sx={{ width: '40px', height: '40px' }} inheritViewBox /> */}
+            <Box
+              component="img"
+              src="https://ptit.edu.vn/wp-content/uploads/2023/06/logo-footer-svg.svg"
+              alt="PTIT Logo"
+              sx={{
+                height: 32, // Điều chỉnh kích thước theo nhu cầu
+                width: 32,
+                objectFit: 'cover', // 'cover', 'contain', 'fill'
+                objectPosition: 'left' // Vị trí crop
+              }}
+            />
+            <Typography variant="span" sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white' }}>
+              PTITodo
+            </Typography>
+          </Box>
+        </Link>
 
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
           <Workspaces />

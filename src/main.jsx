@@ -1,4 +1,5 @@
 import CssBaseline from '@mui/material/CssBaseline'
+import GlobalStyles from '@mui/material/GlobalStyles'
 import { Experimental_CssVarsProvider as CssVarsProvider } from '@mui/material/styles'
 import ReactDOM from 'react-dom/client'
 import theme from '~/theme'
@@ -35,6 +36,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               buttonOrder: ['confirm', 'cancel']
             }}
           >
+            <GlobalStyles styles={{ a: { textDecoration: 'none' } }}/>
             <CssBaseline />
             <App />
             <ToastContainer
