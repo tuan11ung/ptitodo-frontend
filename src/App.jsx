@@ -19,7 +19,7 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={
-        <Navigate to='/boards/692b2128f9a85561876254c6' replace={true}/>
+        <Navigate to='/boards' replace={true}/>
       }
       />
 
