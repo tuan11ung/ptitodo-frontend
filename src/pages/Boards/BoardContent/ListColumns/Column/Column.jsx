@@ -53,9 +53,6 @@ function Column({ column }) {
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
-    if (openNewCardForm == true) {
-      toggelNewCardForm()
-    }
   }
   const handleClose = () => {
     setAnchorEl(null)
@@ -178,13 +175,6 @@ function Column({ column }) {
             value={column?.title}
             onChangedValue={onUpdateColumnTitle}
           />
-          {/* <Typography variant='h6' sx={{
-            fontSize: '1rem',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}>
-            {column?.title}
-          </Typography> */}
           <Box>
             <Tooltip title='More Options'>
               <ExpandMoreIcon
