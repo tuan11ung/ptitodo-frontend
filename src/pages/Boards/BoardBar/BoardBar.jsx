@@ -10,6 +10,7 @@ import Button from '@mui/material/Button'
 import { Box, Tooltip } from '@mui/material'
 import { capitalizeFirstLetter } from '~/utils/formatters'
 import BoardUserGroup from './BoardUserGroup'
+import InviteBoardUser from './InviteBoardUser'
 
 const MENU_STYLES = {
   color: 'white',
@@ -58,7 +59,7 @@ function BoardBar({ board }) {
           label={capitalizeFirstLetter(board?.type)}
           clickable
         />
-        <Chip
+        {/* <Chip
           sx={MENU_STYLES}
           icon={<AddToDriveIcon />}
           label="Add to Google Drive"
@@ -75,21 +76,10 @@ function BoardBar({ board }) {
           icon={<FilterListIcon />}
           label="Filter"
           clickable
-        />
+        /> */}
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-        <Button
-          variant="outlined"
-          sx={{
-            color: 'white',
-            borderColor: 'white',
-            '&:hover': {
-              borderColor: 'white',
-              backgroundColor: '#2980b9'
-            }
-          }}
-          startIcon={<PersonAddIcon/>}>Invite
-        </Button>
+        <InviteBoardUser boardId={board._id} />
 
         {/* Xu ly hien thi thanh vien cua board */}
         <BoardUserGroup boardUsers={board?.FE_allUsers}/>

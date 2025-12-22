@@ -19,6 +19,12 @@ export const createNewBoardAPI = async (data) => {
   return response.data
 }
 
+export const inviteBoardUserAPI = async (data) => {
+  const response = await authorizeAxiosInstance.post(`${API_ROOT}/v1/invitations/board`, data)
+  toast.success('User invited to board successfully!')
+  return response.data
+}
+
 // Column
 export const createNewColumnAPI = async (newColumnData) => {
   const response = await authorizeAxiosInstance.post(`${API_ROOT}/v1/columns`, newColumnData)

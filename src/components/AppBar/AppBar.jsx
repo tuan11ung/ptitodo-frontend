@@ -20,6 +20,7 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import SearchIcon from '@mui/icons-material/Search'
 import Profile from './Menu/Profile'
 import CloseIcon from '@mui/icons-material/Close'
+import Notifications from './Notifications/Notifications'
 
 import { Link } from 'react-router-dom'
 
@@ -66,11 +67,11 @@ function AppBar() {
         </Link>
 
         <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
-          <Workspaces />
+          {/* <Workspaces />
           <Recent />
           <Starred />
-          <Templates />
-          <Button sx={{ color: 'white' }} startIcon={<AddBoxIcon/>}>Create</Button>
+          <Templates /> */}
+          {/* <Button sx={{ color: 'white' }} startIcon={<AddBoxIcon/>}>Create</Button> */}
         </Box>
 
       </Box>
@@ -116,11 +117,9 @@ function AppBar() {
             }
           }}
         />
-        <Tooltip title="Notifications">
-          <Badge color="error" variant="dot" sx={{ cursor: 'pointer' }}>
-            <NotificationsNoneIcon sx={{ color: 'white' }}/>
-          </Badge>
-        </Tooltip>
+
+        <Notifications />
+
         <Tooltip title="Help" sx={{ cursor: 'pointer', color: 'white' }}>
           <HelpOutlineIcon/>
         </Tooltip>

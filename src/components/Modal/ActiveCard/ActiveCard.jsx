@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Typography from '@mui/material/Typography'
@@ -79,7 +78,6 @@ function ActiveCard() {
   }
 
   const onUpdateCardTitle = (newTitle) => {
-    console.log(newTitle.trim())
     callApiUpdateCard({ title: newTitle.trim() })
   }
 
@@ -88,7 +86,6 @@ function ActiveCard() {
   }
 
   const onUploadCardCover = (event) => {
-    console.log(event.target?.files[0])
     const error = singleFileValidator(event.target?.files[0])
     if (error) {
       toast.error(error)

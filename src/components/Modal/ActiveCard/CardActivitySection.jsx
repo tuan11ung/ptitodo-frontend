@@ -12,8 +12,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import React from 'react'
 import Divider from '@mui/material/Divider'
 import DeleteIcon from '@mui/icons-material/Delete'
-import AddCardIcon from '@mui/icons-material/AddCard'
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from '@mui/icons-material/Edit'
 
 import { useSelector } from 'react-redux'
 import { currentUserSelector } from '~/redux/user/userSlice'
@@ -44,7 +43,6 @@ function CardActivitySection({ cardComments = [], onAddCardComment }) {
         userDisplayName: currentUser?.displayName,
         content: event.target.value.trim()
       }
-      console.log(commentToAdd)
       onAddCardComment(commentToAdd).then(() => {
         event.target.value = ''
       })

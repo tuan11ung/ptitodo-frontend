@@ -44,7 +44,7 @@ export const activeBoardSlice = createSlice({
           })
         }
       }
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchBoardDetailsAPI.fulfilled, (state, action) => {
