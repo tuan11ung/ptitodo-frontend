@@ -37,7 +37,7 @@ import { styled } from '@mui/material/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { activeCardSelector, clearCurrentActiveCard, showActiveCardSelector, updateCurrentActiveCard } from '~/redux/activeCard/activeCardSlice'
 import { updateCardDetailsAPI } from '~/apis'
-import { updateCardInBoard, updateCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
+import { activeBoardSelector, updateCardInBoard } from '~/redux/activeBoard/activeBoardSlice'
 const SidebarItem = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -61,6 +61,10 @@ const SidebarItem = styled(Box)(({ theme }) => ({
 function ActiveCard() {
   const dispatch = useDispatch()
   const isShowModalActiveCard = useSelector(showActiveCardSelector)
+
+  const activeBoard = useSelector(activeBoardSelector)
+
+  let cardMemberIds = activeBoard.FE_allUsers
 
   const activeCard = useSelector(activeCardSelector)
   const handleCloseModal = () => {
@@ -165,7 +169,7 @@ function ActiveCard() {
               <Typography sx={{ fontWeight: '600', color: 'primary.main', mb: 1 }}>Members</Typography>
 
               {/* Xử lý các thành viên của Card */}
-              <CardUserGroup />
+              <CardUserGroup cardMemberIds={cardMemberIds}/>
             </Box>
 
             <Box sx={{ mb: 3 }}>
